@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 letterSpacing: '-0.01em',
                 color: 'var(--color-primary)',
               }}>
-                <span style={{
+der <span style={{
                   color: 'var(--color-secondary)',
                   fontSize: 23,
                   letterSpacing: '-0.03em',
