@@ -25,7 +25,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           borderBottom: '2px solid var(--color-outline-variant)',
           padding: '0 24px',
         }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, position: 'relative' }}>
+
+            {/* ── Centered KInderBlog title ── */}
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+            }}>
+              <span style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
+                fontSize: 20,
+                letterSpacing: '-0.01em',
+                color: 'var(--color-primary)',
+              }}>
+                <span style={{
+                  color: 'var(--color-secondary)',
+                  fontSize: 23,
+                  letterSpacing: '-0.03em',
+                }}>KI</span>nderBlog
+              </span>
+            </div>
             <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ fontSize: 28 }}>⭐</span>
               <span style={{
