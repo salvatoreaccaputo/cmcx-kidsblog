@@ -8,6 +8,7 @@ import {
 } from '../../../lib/supabase';
 
 export const revalidate = 10;
+export const dynamicParams = true; /* Render new campaigns on-demand */
 
 export async function generateStaticParams() {
   try {

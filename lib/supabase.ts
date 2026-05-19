@@ -1,9 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
 
-export const supabase = createClient(url, key);
+export const isConfigured = !!(url && key);
+export const supabase = isConfigured ? createClient(url, key) : null;
 
 export interface KidsStory {
   id: string;
@@ -19,6 +20,7 @@ export interface KidsStory {
 }
 
 export async function getKidsStories(): Promise<KidsStory[]> {
+  if (!supabase) return [];
   const { data, error } = await supabase
     .from('campaigns')
     .select('id, created_at, title, idea, tone, language, channels, kidsblog, image_url, image_prompt')
@@ -30,6 +32,7 @@ export async function getKidsStories(): Promise<KidsStory[]> {
 }
 
 export async function getKidsStory(id: string): Promise<KidsStory | null> {
+  if (!supabase) return null;
   const { data, error } = await supabase
     .from('campaigns')
     .select('id, created_at, title, idea, tone, language, channels, kidsblog, image_url, image_prompt')
