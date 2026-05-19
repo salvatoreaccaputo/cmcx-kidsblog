@@ -79,9 +79,10 @@ export function formatDate(iso: string): string {
 
 /** Parse kidsblog markdown into sections for rendering */
 export interface StorySection {
-  type: 'heading' | 'paragraph' | 'blockquote' | 'bullet';
+  type: 'heading' | 'paragraph' | 'blockquote' | 'bullet' | 'image';
   level?: number; /* for heading */
   content: string;
+  alt?: string; /* for image */
 }
 
 export function parseStory(content: string): StorySection[] {
@@ -92,11 +93,13 @@ export function parseStory(content: string): StorySection[] {
     const trimmed = line.trim();
     if (!trimmed) continue;
 
-    const h3 = trimmed.match(/^###\s+(.*)/);
-    const h2 = trimmed.match(/^##\s+(.*)/);
-    const h1 = trimmed.match(/^#\s+(.*)/);
-    const bq = trimmed.match(/^>\s*(.*)/);
+    const h3    = trimmed.match(/^###\s+(.*)/);
+    const h2    = trimmed.match(/^##\s+(.*)/);
+    const h1    = trimmed.match(/^#\s+(.*)/);
+    const bq    = trimmed.match(/^>\s*(.*)/);
     const bullet = trimmed.match(/^[-*]\s+(.*)/);
+    /* Embedded markdown image: ![alt](url) */
+    const img   = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
 
     if (h1) {
       sections.push({ type: 'heading', level: 1, content: h1[1] });
@@ -104,6 +107,8 @@ export function parseStory(content: string): StorySection[] {
       sections.push({ type: 'heading', level: 2, content: h2[1] });
     } else if (h3) {
       sections.push({ type: 'heading', level: 3, content: h3[1] });
+    } else if (img) {
+      sections.push({ type: 'image', content: img[2], alt: img[1] || 'Illustration' });
     } else if (bq) {
       sections.push({ type: 'blockquote', content: bq[1] });
     } else if (bullet) {

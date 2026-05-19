@@ -5,6 +5,7 @@ import {
   getKidsStory, getKidsStories,
   storyDisplayTitle, storyExcerpt, storyImage, formatDate,
   parseStory, inlineMarkdown,
+  type StorySection,
 } from '../../../lib/supabase';
 
 export const revalidate = 10;
@@ -30,7 +31,7 @@ export async function generateMetadata(
 }
 
 /* ── Section renderer ────────────────────────────────────────── */
-function renderSection(s: ReturnType<typeof parseStory>[number], i: number) {
+function renderSection(s: StorySection, i: number) {
   if (s.type === 'heading') {
     /* Skip h1 — it's rendered separately as hero title */
     if (s.level === 1) return null;
@@ -90,6 +91,22 @@ function renderSection(s: ReturnType<typeof parseStory>[number], i: number) {
       }}
         dangerouslySetInnerHTML={{ __html: inlineMarkdown(s.content) }}
       />
+    );
+  }
+
+  if (s.type === 'image') {
+    return (
+      <div key={i} style={{ margin: '28px 0', borderRadius: 24, overflow: 'hidden', border: '3px solid var(--color-outline-variant)', boxShadow: '0 8px 32px rgba(112,93,0,0.10)' }}>
+        <Image
+          src={s.content}
+          alt={s.alt ?? 'Illustration'}
+          width={780}
+          height={420}
+          sizes="(max-width: 820px) 100vw, 780px"
+          className="object-cover w-full"
+          style={{ display: 'block', width: '100%', height: 'auto', maxHeight: 420, objectFit: 'cover' }}
+        />
+      </div>
     );
   }
 
