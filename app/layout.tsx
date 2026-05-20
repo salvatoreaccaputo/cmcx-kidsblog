@@ -64,21 +64,6 @@ der <span style={{
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <a
-                href="/"
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 700,
-                  fontSize: 14,
-                  color: 'var(--color-muted)',
-                  textDecoration: 'none',
-                  padding: '6px 16px',
-                  borderRadius: 999,
-                  transition: 'background 0.15s',
-                }}
-              >
-                Alle Geschichten
-              </a>
-              <a
                 href={process.env.NEXT_PUBLIC_CMCX_URL ?? 'https://cmcx.vercel.app'}
                 target="_blank"
                 rel="noopener noreferrer"
