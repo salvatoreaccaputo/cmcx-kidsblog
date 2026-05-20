@@ -63,9 +63,19 @@ export function storyExcerpt(kidsblog: string, max = 120): string {
   return '';
 }
 
-/** Deterministic Picsum seed image */
+/**
+ * Extract the first embedded illustration URL from kidsblog markdown.
+ * Falls back to image_url, then a Picsum seed image.
+ */
 export function storyImage(story: KidsStory, w = 600, h = 400): string {
+  /* First: use the first DALL-E illustration embedded in the kidsblog content */
+  if (story.kidsblog) {
+    const m = story.kidsblog.match(/!\[[^\]]*\]\((https?:\/\/[^)]+)\)/);
+    if (m?.[1]) return m[1];
+  }
+  /* Fallback: legacy image_url field */
   if (story.image_url?.startsWith('http')) return story.image_url;
+  /* Last resort: deterministic Picsum placeholder */
   const seed = story.id.replace(/[^a-z0-9]/gi, '').slice(0, 12) || 'kids';
   return `https://picsum.photos/seed/${seed}/${w}/${h}`;
 }
